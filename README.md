@@ -84,7 +84,8 @@ $ rails server
 │   │   └── application_mailer.rb
 │   ├── models
 │   │   ├── application_record.rb
-│   │   └── concerns
+│   │   ├── concerns
+│   │   └── user.rb
 │   └── views
 │       ├── layouts
 │       │   ├── _footer.html.erb
@@ -136,6 +137,12 @@ $ rails server
 │   └── spring.rb
 ├── config.ru
 ├── db
+│   ├── development.sqlite3
+│   ├── migrate
+│   │   ├── 20200217123606_create_users.rb
+│   │   ├── 20200219122000_add_index_to_users_email.rb
+│   │   └── 20200220093854_add_password_digest_to_users.rb
+│   ├── schema.rb
 │   ├── seeds.rb
 │   └── test.sqlite3
 ├── lib
@@ -159,13 +166,15 @@ $ rails server
 │   │   ├── static_pages_controller_test.rb
 │   │   └── users_controller_test.rb
 │   ├── fixtures
-│   │   └── files
+│   │   ├── files
+│   │   └── users.yml
 │   ├── helpers
 │   │   └── application_helper_test.rb
 │   ├── integration
 │   │   └── site_layout_test.rb
 │   ├── mailers
 │   ├── models
+│   │   └── user_test.rb
 │   ├── system
 │   └── test_helper.rb
 ├── tmp
@@ -272,6 +281,8 @@ $ rails server
 │   │               │   └── 5Q817o5nTi2FWBhjr-tbm2tTRbo_ZVGgqj9QbHSAHXI.cache
 │   │               ├── 5S
 │   │               │   └── 5SpEv20bzzCx1JFC7hvmX2ZhMVeDe20SO8gVhnLijNU.cache
+│   │               ├── 5T
+│   │               │   └── 5TLzktZaKKfTU1uxyOTyleIujIAcW7Z3XXw6Yr9cckc.cache
 │   │               ├── 5c
 │   │               │   ├── 5CPmXg61BiUqYNWCTmzziaKrvxRdkX-_4q4_GcTxmFw.cache
 │   │               │   └── 5cWZbmgYHukNp-BmRMHx4OhOgV9b7fvgyRJVoChq1G0.cache
@@ -406,6 +417,8 @@ $ rails server
 │   │               │   └── EWhktHORjkMDQ9SWO9_htHup77-wkYFzTXINnZ09bGc.cache
 │   │               ├── E_
 │   │               │   └── E_EEuJ9sKmHyebFDffIJrCUjJsv2tsOkkDpxbImd3aA.cache
+│   │               ├── Ec
+│   │               │   └── Ec2Bpq1uKo7w6I5hu6l3kCGEVfXGuj2Qh1-9D-hSB8w.cache
 │   │               ├── Ee
 │   │               │   └── EeWUt6gX6LoAGatf55ymcTYUxrouVexUJ0FHwkQRKbw.cache
 │   │               ├── Ef
@@ -621,7 +634,8 @@ $ rails server
 │   │               │   ├── RD2PMuHOG6pTrhTsXFLLC11Lk68IsYFXFlW41xeQp9A.cache
 │   │               │   └── rD9VRCumHXwQJ30CitAEooT3FTj7U2RfM08tWATlGQc.cache
 │   │               ├── RM
-│   │               │   └── RMP6kQhKAd1m1pE_tWoWK4rMy0-6vRQ39ZqZNTAevkM.cache
+│   │               │   ├── RMP6kQhKAd1m1pE_tWoWK4rMy0-6vRQ39ZqZNTAevkM.cache
+│   │               │   └── rmbgqlbd78e_pqy4fcHxdorYZLJxIqJ-jhrxynrETQ8.cache
 │   │               ├── RP
 │   │               │   └── RP7_0pAHkq43x8NKVCcM2y-CyQVuKzkjTasTCydjep8.cache
 │   │               ├── Rb
@@ -659,6 +673,8 @@ $ rails server
 │   │               │   └── UI1uI6Cdz1ln6pL2NhRznigH4YwR4T6-Dy7fapU4RPA.cache
 │   │               ├── Uw
 │   │               │   └── Uwl0mbb1UCv7FTO2-5Qmbqtdi8pflTk6gCBALGQkXI4.cache
+│   │               ├── Uy
+│   │               │   └── UyNkefHN_SJTae0zIMvrithETWbUgxk9KW-guwhnP1s.cache
 │   │               ├── V0
 │   │               │   └── V0POJnXidRAxFXNdrlIiNT5BNB06G7tdxCa5-vDpsxA.cache
 │   │               ├── V8
@@ -707,6 +723,8 @@ $ rails server
 │   │               │   └── Z0ywffFp50FW83lppa-Y0ufSP0k997w2bH4i4OEvctY.cache
 │   │               ├── ZN
 │   │               │   └── ZNphG1DqKqoyJdPXDpobibSa9y6FJyxdM2HbUUxOm5U.cache
+│   │               ├── ZR
+│   │               │   └── ZRNGIXSSx1v9BTAn2SedPt2UoIlQmsAzovBduUoh-fY.cache
 │   │               ├── ZT
 │   │               │   └── ZTzBWShCKqQfHypnBEEwTzxXlVU_nOhkC-4njR76pxU.cache
 │   │               ├── Zu
@@ -836,7 +854,8 @@ $ rails server
 │   │               │   ├── j9GhuTs2przBm8UQYFoPGhdSdtk5wGYef3dK8yOslt8.cache
 │   │               │   └── j9s2jo7GOFqLfRpIegA8zx1mIVIadnFehZq4sGqvDBo.cache
 │   │               ├── j_
-│   │               │   └── j_7vf0AhuRDeujeafEDQnHVjPmi5io55TeJbjzmknhY.cache
+│   │               │   ├── j_7vf0AhuRDeujeafEDQnHVjPmi5io55TeJbjzmknhY.cache
+│   │               │   └── j_n10IimyKjBIMlwQLnQJUw0L1h1vked6TvJrK5toCQ.cache
 │   │               ├── jp
 │   │               │   └── jpCKQ_gbMqdTfMJ-_0HHR1P-YSUGeFfKTOuH7tdghwo.cache
 │   │               ├── k6
@@ -936,6 +955,8 @@ $ rails server
 │   │               │   └── qh0-nPWIB1SWMt-j5DumWQDNBand53LxM2akuoe0tpE.cache
 │   │               ├── qk
 │   │               │   └── qkYBjjOHN8oszKoMSnXiF2bNAtBGyW14mCTkkL1uO_c.cache
+│   │               ├── r3
+│   │               │   └── r3R3T9Vo_fkA9ci47OGWYjao5MhkQx_9fh1TlcDnP7s.cache
 │   │               ├── r8
 │   │               │   └── r8J9FTZAoCpQGVz_31PZ9jCO1ESDiH8o5LLq_BXZQxk.cache
 │   │               ├── rN
@@ -1011,6 +1032,8 @@ $ rails server
 │   │               ├── x8
 │   │               │   ├── x8V6PdHxQaGCNyJQaGZ6UoJFAuosSa5HQM02tx-l_gM.cache
 │   │               │   └── x8XA8NU2TpoSEJGg3gubo5BpRhK4InJjwNPmainB2Sk.cache
+│   │               ├── xK
+│   │               │   └── xKxi1yernzOxDVd_ne3QZWPrsFHXFaT4onuGzk3NxnI.cache
 │   │               ├── xX
 │   │               │   └── xXdxxmoTmqjwXdoWt3mut7Mo-2-A48vUYyo8PxeTuXQ.cache
 │   │               ├── xc
@@ -1057,4 +1080,4 @@ $ rails server
 │   └── sockets
 └── vendor
 
-451 directories, 563 files
+458 directories, 579 files
