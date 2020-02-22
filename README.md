@@ -40,11 +40,11 @@ $ rails server
 詳しくは、[*Ruby on Rails チュートリアル*](https://railstutorial.jp/)
 を参考にしてください。
 
-## tree
-.
+## tree.
 ├── Gemfile
 ├── Gemfile.lock
 ├── Guardfile
+├── Procfile
 ├── README.md
 ├── Rakefile
 ├── app
@@ -58,11 +58,13 @@ $ rails server
 │   │   │   ├── application.js
 │   │   │   ├── cable.js
 │   │   │   ├── channels
+│   │   │   ├── sessions.coffee
 │   │   │   ├── static_pages.coffee
 │   │   │   └── users.coffee
 │   │   └── stylesheets
 │   │       ├── application.css
 │   │       ├── custom.scss
+│   │       ├── sessions.scss
 │   │       ├── static_pages.scss
 │   │       └── users.scss
 │   ├── channels
@@ -72,10 +74,12 @@ $ rails server
 │   ├── controllers
 │   │   ├── application_controller.rb
 │   │   ├── concerns
+│   │   ├── sessions_controller.rb
 │   │   ├── static_pages_controller.rb
 │   │   └── users_controller.rb
 │   ├── helpers
 │   │   ├── application_helper.rb
+│   │   ├── sessions_helper.rb
 │   │   ├── static_pages_helper.rb
 │   │   └── users_helper.rb
 │   ├── jobs
@@ -95,6 +99,8 @@ $ rails server
 │       │   ├── application.html.erb
 │       │   ├── mailer.html.erb
 │       │   └── mailer.text.erb
+│       ├── sessions
+│       │   └── new.html.erb
 │       ├── shared
 │       │   └── _error_messages.html.erb
 │       ├── static_pages
@@ -167,6 +173,7 @@ $ rails server
 ├── test
 │   ├── application_system_test_case.rb
 │   ├── controllers
+│   │   ├── sessions_controller_test.rb
 │   │   ├── static_pages_controller_test.rb
 │   │   └── users_controller_test.rb
 │   ├── fixtures
@@ -176,6 +183,7 @@ $ rails server
 │   │   └── application_helper_test.rb
 │   ├── integration
 │   │   ├── site_layout_test.rb
+│   │   ├── users_login_test.rb
 │   │   └── users_signup_test.rb
 │   ├── mailers
 │   ├── models
@@ -205,6 +213,7 @@ $ rails server
 │   │               ├── -p
 │   │               │   └── -p87L9AqUgJII4BP1RPvz06L9u-_g7nNTTwLwRXfTgs.cache
 │   │               ├── -w
+│   │               │   ├── -Wli0FMNlX7sOZ1tutq-l5g9Uc-YZeD1ANp834Zx8Sw.cache
 │   │               │   └── -wRg0Be8PvM5NwEsPOJBLRssa1ttUZFtsMcObxlIgBY.cache
 │   │               ├── 07
 │   │               │   └── 074aKZkkYwWNTpxDXGVp7r441CpK-DaxpAnPn6f8fDo.cache
@@ -220,6 +229,10 @@ $ rails server
 │   │               │   └── 0ZOrbB_R1e4yZa0A6DVzQqzYg90rG9kAQMdS8QBK0zE.cache
 │   │               ├── 0q
 │   │               │   └── 0qgQRx2bMiU_bYows6YobTiUlSKlI_e4ikU4SPPYOsA.cache
+│   │               ├── 0r
+│   │               │   └── 0reP-0t82VEMMgaE1p6kVOnk8Yi7vuLrOW0mDspEEv4.cache
+│   │               ├── 17
+│   │               │   └── 17ubBLAfkO54mc-A02R2ogRUedXvfWmqjsuLK0OEd7c.cache
 │   │               ├── 1A
 │   │               │   └── 1AQxzgY8bsv_0YXNXItyIg_judRJ02QIj74Loli4voI.cache
 │   │               ├── 1K
@@ -231,6 +244,7 @@ $ rails server
 │   │               ├── 1_
 │   │               │   └── 1_VRVifz_wKNDC1qCkVQnSDaEv9z3S-DaxLhV0O74dE.cache
 │   │               ├── 1c
+│   │               │   ├── 1CgzJ1hkRVUDkxrwsBfVYgNiRnQEQM1U2N3k4eVjqPw.cache
 │   │               │   └── 1cuPqeZcaFI7rgRYTsNaNKpZaFqi-IKLgbFFgLhKlKs.cache
 │   │               ├── 2-
 │   │               │   └── 2-QckSvB7MCD4_Ab2jNV5Ov0maWtilVmI4Z4uzO6yrE.cache
@@ -245,6 +259,8 @@ $ rails server
 │   │               │   └── 2ARQ0J-3O_R_mjll7ERejcd5k7w3Fq2g7ziN-Jy_HIM.cache
 │   │               ├── 2B
 │   │               │   └── 2BuUKNZ6Q8Tv-bva4l8GAvgelDrvJVVq1ImqsqWdWjY.cache
+│   │               ├── 2G
+│   │               │   └── 2Gq734vx2oOijWlsCWWOQYUPqi-xEJrtzXIg1pmv-HU.cache
 │   │               ├── 2I
 │   │               │   └── 2IVriuWKLh-tSb9ND6XY9XHTF-0552mdOLOrzS9Drec.cache
 │   │               ├── 2d
@@ -261,6 +277,8 @@ $ rails server
 │   │               │   └── 356QP9hck9lxHmxC0ZIG1p46Hlsj3nNh9jHuAO_IljU.cache
 │   │               ├── 3B
 │   │               │   └── 3BmuN8v4tvFr416Z1hwkx7nloeBbWxw_Eh_kilGVwyw.cache
+│   │               ├── 3G
+│   │               │   └── 3G7xZ6TwiifPyrEyrj5yc0tFt4UswVpJAo3omQHr1k8.cache
 │   │               ├── 3H
 │   │               │   └── 3H9pRUq56NXUaPFmvVzopiKyrYolPKMSkmj6MrwQ5zg.cache
 │   │               ├── 3L
@@ -280,6 +298,8 @@ $ rails server
 │   │               │   └── 4snMPSA9KhsUN72jsd-m6VXkY9VVOsmHbYUMB_34BJ4.cache
 │   │               ├── 4v
 │   │               │   └── 4vOGLj4sKdXYt8pjQfsBqGeMmkPa--WKeqKxYNbc8YI.cache
+│   │               ├── 4x
+│   │               │   └── 4xshQk9auKslFv03TgE9tcFz0hdAkasP0iUMGe70bJs.cache
 │   │               ├── 53
 │   │               │   └── 53R-ruTo_2QiBozJqNmFymWNIdjQOuotXgfehx-3WD4.cache
 │   │               ├── 55
@@ -294,16 +314,21 @@ $ rails server
 │   │               │   ├── 5CPmXg61BiUqYNWCTmzziaKrvxRdkX-_4q4_GcTxmFw.cache
 │   │               │   └── 5cWZbmgYHukNp-BmRMHx4OhOgV9b7fvgyRJVoChq1G0.cache
 │   │               ├── 5l
-│   │               │   └── 5l5Rhfwx1fSMFCvOm-Y7JyFN0nY4wEpm7fPIdUh7mbc.cache
+│   │               │   ├── 5l5Rhfwx1fSMFCvOm-Y7JyFN0nY4wEpm7fPIdUh7mbc.cache
+│   │               │   └── 5lOy_0cRY8DO7fYnR6D8YampweHwOfYzAxLaoWxD61Q.cache
 │   │               ├── 60
 │   │               │   └── 60Q9O7RxFWQptirD6beYKVmrkk0sbAI1aY3EVDrGLMQ.cache
 │   │               ├── 61
 │   │               │   └── 61DYE6KWkT0kZHOqhoDyZVE-tFnswqDzUluEf04Z9qI.cache
 │   │               ├── 65
 │   │               │   └── 65TqEhBQb17ofCQF_F-7hduL1LHLVfEI-KiIeCNAl9U.cache
+│   │               ├── 6H
+│   │               │   └── 6Hgdlkzb2yeytwc2iG_eXuZ06U6Dv5jaKB_CNSCg_gg.cache
 │   │               ├── 6N
 │   │               │   ├── 6NQFC9YxorqzSB8kIWfQKsSwOuGDz24BPqX6LfiY4LU.cache
 │   │               │   └── 6Nhg04SIEAXudu3_V_q3K5J2ZiZmW6ST8Zw97I4KQhI.cache
+│   │               ├── 6O
+│   │               │   └── 6OuBZovmSERTOFdQJqRCcjzPnrIPg46564pwLc57_co.cache
 │   │               ├── 6T
 │   │               │   └── 6TJ17j7fm11Dd-69l3FtfolAQYmU-JqjDDleLY_Q4pE.cache
 │   │               ├── 6_
@@ -410,7 +435,8 @@ $ rails server
 │   │               ├── C2
 │   │               │   └── C2Jeay_81Tb2qX2GOeX664kS7tCrS9CxFnevMq4ZHEE.cache
 │   │               ├── C6
-│   │               │   └── C6cHJ5L6HmDAWNgtK7wv7-EkdfchxWpqboJcqew0d3Y.cache
+│   │               │   ├── C6cHJ5L6HmDAWNgtK7wv7-EkdfchxWpqboJcqew0d3Y.cache
+│   │               │   └── C6yNLdS2z_2zc9OPiMcuZ5lj5gLKe5Y7u39Vzk0lHts.cache
 │   │               ├── CD
 │   │               │   └── CDlnKrlZW3wS7diXJpBInZ6DAtt0dfqo5LGvJYs7aog.cache
 │   │               ├── DA
@@ -420,10 +446,15 @@ $ rails server
 │   │               │   └── DCD4sAoUJSuSlE8nB07QQvIANdp8BRcxTRLviIi3XiA.cache
 │   │               ├── DM
 │   │               │   └── DMFb3wuCCsd7W6vkDuHZRH5XmO2YT8xA7E1GMrH_Bv4.cache
+│   │               ├── DW
+│   │               │   └── DWrmTEsL55g2_umHOUXU_RnD5GEOqoj_YmjJuj2HXNo.cache
 │   │               ├── Dz
 │   │               │   └── Dzqw3r2wgU_1cix_7Rbhf_ekh1VNVcXJxrNQKKWFI2k.cache
+│   │               ├── E6
+│   │               │   └── E62VvadtWjMn_jP-Atx5FO91yxJ3ZlYdOSBHCGVKUvg.cache
 │   │               ├── EN
-│   │               │   └── ENg75r4nQ3lVwcGqMkmBHRLdMv3gfDLmj3KVIG91-Qk.cache
+│   │               │   ├── ENg75r4nQ3lVwcGqMkmBHRLdMv3gfDLmj3KVIG91-Qk.cache
+│   │               │   └── EnD943kJloQb4ZFxuhowZ1dSPXxv7iI8dhZtN62U9sQ.cache
 │   │               ├── EU
 │   │               │   └── EUMSZLBrqUdn7kDYteUGPTq95twZjMlha6oszWhUwqU.cache
 │   │               ├── EV
@@ -445,7 +476,8 @@ $ rails server
 │   │               │   └── Ek77jGH6874512-JV1MmqSS4eutJ4orLxJcJ1qpq4hw.cache
 │   │               ├── Es
 │   │               │   ├── Es4QXbABc4_v8lKgrh8E8q52BwrVaXm4OdimXhlJGKE.cache
-│   │               │   └── eS9TXrU1OlNDXjd4KwRl13Pph07qtvE4UTJ5J6IKgFU.cache
+│   │               │   ├── eS9TXrU1OlNDXjd4KwRl13Pph07qtvE4UTJ5J6IKgFU.cache
+│   │               │   └── esmxQtGqAlctAPs1xnjlWkcJb43mPfMQ8IqzYqgC_qU.cache
 │   │               ├── F7
 │   │               │   └── F7hEeOQl5OiIE1SDeSJscnvpJ98DoRIOQjUE2UGfqrc.cache
 │   │               ├── FA
@@ -474,7 +506,8 @@ $ rails server
 │   │               ├── GP
 │   │               │   └── GPE_dlWvAW7aXOFJ0DlBgZTvnJj2q88UEQOTFXRoEww.cache
 │   │               ├── GQ
-│   │               │   └── GQOWYPVhvIxYUWzWtFJV19N9A3kaOG1oiQ_zR0WLpro.cache
+│   │               │   ├── GQOWYPVhvIxYUWzWtFJV19N9A3kaOG1oiQ_zR0WLpro.cache
+│   │               │   └── gQA0vxt4QBrJAjuSXELIU5nTlvIqmFPTPTmSGa016dg.cache
 │   │               ├── GT
 │   │               │   └── GTg1zrXZ602fRj5q7vz7D0gCju_yMdSPgGrNqnEQl5c.cache
 │   │               ├── Ga
@@ -509,7 +542,8 @@ $ rails server
 │   │               │   └── IEX7nSfETtJitcAfhfDffdDT1YV97NfLiUL-V00NOwQ.cache
 │   │               ├── IF
 │   │               │   ├── IFAxFguThvOgj7Vok3Z1JUYxwZtC9JiS961IgHPBfvE.cache
-│   │               │   └── IFCUqlck5081P47BxmBXY-1W30q53YeV76NKW3sG0rM.cache
+│   │               │   ├── IFCUqlck5081P47BxmBXY-1W30q53YeV76NKW3sG0rM.cache
+│   │               │   └── iFUG0E_sQdDIpJ5NuDW_jJEq3h8SdET5JGy2A-Xw-Sg.cache
 │   │               ├── IJ
 │   │               │   └── IJ2UN3c8-J0R-8xyU9tMi1xq6B7a5ijV2ke5DdYgoHU.cache
 │   │               ├── IX
@@ -537,9 +571,12 @@ $ rails server
 │   │               ├── Ji
 │   │               │   └── JiyX6ShEHlR-HoxTH44S_NC1sEVMga7bry942UmCxuY.cache
 │   │               ├── Jm
-│   │               │   └── JmrcrwsHBGrqLygo2fzX96Z2cR-Z5ZEI8Z05oUMpAT4.cache
+│   │               │   ├── JmrcrwsHBGrqLygo2fzX96Z2cR-Z5ZEI8Z05oUMpAT4.cache
+│   │               │   └── jMHVTzxeSmXKLIWCG1ZfapSIbG7eU65YELCrQzO2MC8.cache
 │   │               ├── Jn
 │   │               │   └── JnofNFoTsyRph3OLghorvyL9FAf2sBSUplmRL5bzTwE.cache
+│   │               ├── Jx
+│   │               │   └── JxEBWwvEFiZELl2vyYrcPmt9OJQGTPQOEHV3s_TXK4w.cache
 │   │               ├── Jy
 │   │               │   └── JyUXS2vn5kIuJNeCEby3KNgN-EycnExR8349jTY2XDY.cache
 │   │               ├── K3
@@ -549,10 +586,13 @@ $ rails server
 │   │               │   └── KKhdTSIykyITve8rq2L_G12TCD42FPTFlio-EQtMZfw.cache
 │   │               ├── KM
 │   │               │   └── KMDv0tWUVcazVSRDt4Qb8wZjN1n9Uryg1EXraiP_ysI.cache
+│   │               ├── Ka
+│   │               │   └── KauWzu4TdEGfPFQTwSNEkdycLDKvYlg40AYn8hMoxOc.cache
 │   │               ├── Kh
 │   │               │   └── KhSkVLJaXJLDRjIBo55gmPo7dkk7HBF-3S1_gHbdLJc.cache
 │   │               ├── Ki
-│   │               │   └── KiNyKctSt5KAFEr_w79IYIyMokUlP4TCkVtqaD2741I.cache
+│   │               │   ├── KiNyKctSt5KAFEr_w79IYIyMokUlP4TCkVtqaD2741I.cache
+│   │               │   └── ki_zn9svfE9LaI5tx20vkX2QjNst2IwtRVWY-1JpdMk.cache
 │   │               ├── Kj
 │   │               │   └── KjnHnecD9SaF4xEUpzuzWaPvUdw8C68CAqmu0-qQeaw.cache
 │   │               ├── Ks
@@ -589,6 +629,8 @@ $ rails server
 │   │               │   └── MF3MSod7dWt_g7K4LjOMPQ4eWDVfRVAK0rT2esvApgU.cache
 │   │               ├── MG
 │   │               │   └── MGQmEIaqWgaMbz4_KdkG86KMvPDATwptpiuy4dLXAf8.cache
+│   │               ├── MI
+│   │               │   └── MIbx9om7YRsriBhFAJw-SxrwqzAp5C3ZQTPuN0VMD2Q.cache
 │   │               ├── MQ
 │   │               │   ├── MQI3BPU-db5M4mEW3F4Zm-m4y2HTrcykcmp0dvQ_DuY.cache
 │   │               │   └── MQvu2WkmK5fiPmiWWh9vFx8c8KO06YdiLMC4NJfnyI4.cache
@@ -597,17 +639,23 @@ $ rails server
 │   │               ├── N6
 │   │               │   └── N6HjSjwwaSvwRAQxM-_l9E2B68gYdXFce_gvkzPB9tY.cache
 │   │               ├── N8
-│   │               │   └── N84YWZpxRIm1DPtXv1c74S2MwxLmzKUvfmtSW5ujrB8.cache
+│   │               │   ├── N84YWZpxRIm1DPtXv1c74S2MwxLmzKUvfmtSW5ujrB8.cache
+│   │               │   └── N8pCotsxfbsEQ6jsXXvNSVJPSRHyBLJRfFK0_fMkRyI.cache
 │   │               ├── N9
 │   │               │   └── N9uSstfKyzkhq6mCG_KcyA1duU8_DNbXyz-jK6OL3uY.cache
 │   │               ├── NA
 │   │               │   └── NACgEyW6QffSPsDk7f0dIrUaBcoGrlTHCSgjkRBIPgQ.cache
 │   │               ├── NH
-│   │               │   └── NHV7GpWj9UhNUFk7moPiDUnAdGbeEy_bv8OMejB0FIs.cache
+│   │               │   ├── NHV7GpWj9UhNUFk7moPiDUnAdGbeEy_bv8OMejB0FIs.cache
+│   │               │   └── nh3o3K9sQuIEIxQJKfXzAK0665zJPr4_sE8EALQyLBQ.cache
 │   │               ├── NP
 │   │               │   └── NPnNb7jqbIbsJ6b7vM89Lrvjk2NExnSOw6pyN-XLAcI.cache
+│   │               ├── NX
+│   │               │   └── NXLsuT6bhLr3IzHAxVAA59zZrT5YywKYTghZ0HjPoKk.cache
 │   │               ├── NY
 │   │               │   └── NYqV0xqgcBvBFE1zzeYHJmILaVVPL1dWGnhd9uj7YUQ.cache
+│   │               ├── Nj
+│   │               │   └── Njq3tbS0nL9IYckHXcUct8zJL5EODe8Onj5GBOCAUIg.cache
 │   │               ├── Nm
 │   │               │   └── NmfX8P-iQbEp5fd4KJ5V6nhrKICzuGhH4HNoY_rVUJI.cache
 │   │               ├── No
@@ -617,6 +665,8 @@ $ rails server
 │   │               │   └── O-MVhaAguN0EMl9auMGoyVNg3jXMqYXm0C0BqTjaTls.cache
 │   │               ├── OE
 │   │               │   └── OEpQTqVA8DEHdcest8biePY2CWVTgZiXf7vW7Qqmh1E.cache
+│   │               ├── OG
+│   │               │   └── OGlWiYisJJ37b293917A4JaOqGx_d2_8vWB2VqpFccE.cache
 │   │               ├── OO
 │   │               │   └── OOKbcv4qda5KyT_F-lkV3cxpq6fipLRbSo9qE0R-nMY.cache
 │   │               ├── OU
@@ -650,6 +700,7 @@ $ rails server
 │   │               ├── Q1
 │   │               │   └── Q1ictV7outDJ2xxZ4pmuNgpljpEjeihj9LJR_IHRHyI.cache
 │   │               ├── QG
+│   │               │   ├── QG0Zv0_7W36NOdJSx-DsTf0FuewrIne4SjXfE_d-so0.cache
 │   │               │   └── QGaVTiPaCE3382qecv2-YIRVo23XCP8OqI_t_QqtKok.cache
 │   │               ├── QP
 │   │               │   └── QPly4V_GmgpzR6L1kiUnsPmI7HGt6dleTCoTXyGHWzs.cache
@@ -668,6 +719,8 @@ $ rails server
 │   │               ├── RD
 │   │               │   ├── RD2PMuHOG6pTrhTsXFLLC11Lk68IsYFXFlW41xeQp9A.cache
 │   │               │   └── rD9VRCumHXwQJ30CitAEooT3FTj7U2RfM08tWATlGQc.cache
+│   │               ├── RK
+│   │               │   └── RKCvgvFQwgjfMahGFOih66Ut-PhYzQrsLvX34Jf-_EM.cache
 │   │               ├── RM
 │   │               │   ├── RMP6kQhKAd1m1pE_tWoWK4rMy0-6vRQ39ZqZNTAevkM.cache
 │   │               │   └── rmbgqlbd78e_pqy4fcHxdorYZLJxIqJ-jhrxynrETQ8.cache
@@ -709,6 +762,8 @@ $ rails server
 │   │               │   └── TxND3QbAOkaQ3mPe_lsCDugHZFKHSSpekUJH_bVbhAk.cache
 │   │               ├── UI
 │   │               │   └── UI1uI6Cdz1ln6pL2NhRznigH4YwR4T6-Dy7fapU4RPA.cache
+│   │               ├── Uf
+│   │               │   └── UfIXC0gIc9tTY4MMua4nxoME0_7C6fd0N3yc_LM-9ko.cache
 │   │               ├── Uw
 │   │               │   └── Uwl0mbb1UCv7FTO2-5Qmbqtdi8pflTk6gCBALGQkXI4.cache
 │   │               ├── Uy
@@ -718,10 +773,12 @@ $ rails server
 │   │               ├── V8
 │   │               │   └── V878HjdkGgv8aEyecfKlo3K8bdmqfyLjeRAIaonVsoo.cache
 │   │               ├── VC
-│   │               │   └── VCseUFeDns69_tty8KR8rkPP-tzKVk-h_paL7w1Jt38.cache
+│   │               │   ├── VCseUFeDns69_tty8KR8rkPP-tzKVk-h_paL7w1Jt38.cache
+│   │               │   └── vcAo1YaTh4O5T1kZ0n1tO6Ykexidh8no5AkKrBVzXQM.cache
 │   │               ├── VE
 │   │               │   └── VEBCeglgtJlaB7O5lXN1Ny5W70nu8EHCoKyYVYKfjA4.cache
 │   │               ├── VF
+│   │               │   ├── VF58-JasjidgLVIFePHnL5M058QC2e6jiEKpoVOMLHU.cache
 │   │               │   └── VFbXNg650XNp4v41GSQ6aLQz0xr7y9KzW0jokcT_d9E.cache
 │   │               ├── Vh
 │   │               │   └── VhFtRxfpvWr6F4SwlyyYv9BokKPgKmK7ggSUmtPL5k0.cache
@@ -739,8 +796,12 @@ $ rails server
 │   │               │   ├── WhgBL8NZmPh29rhvx4OYxTMT1H8o38Xfm2nrua6Qsw8.cache
 │   │               │   ├── WhqUmORe2YjIDdMWD3Vz2wFIIIsxjiIlgBOp81ZrwSc.cache
 │   │               │   └── wh409VbzYv22EKdPSEVrT5IUP_3hsIU_-9zUw2HbgK8.cache
+│   │               ├── Wp
+│   │               │   └── WpRVsH9vubiEAhL7sZu1QTf2grs5ZcURVfL1UATqPAA.cache
 │   │               ├── Ww
 │   │               │   └── WwF0irUw_aoAZCpEdss5gDA6unOxIYMfdmldm_NSQNw.cache
+│   │               ├── XN
+│   │               │   └── XNwBHe21_4o9mOAXV0g680LN-Ux_SP09HU3KiAtHOsc.cache
 │   │               ├── Xa
 │   │               │   ├── XaKPCIOrgTfcfsnY29EIlU-Vks-RopgCFKm1PzHYmkg.cache
 │   │               │   └── xar4nUgBDJiaL9kGxFKuc8UIkqpGC0mBaROPsTRmDxs.cache
@@ -760,10 +821,13 @@ $ rails server
 │   │               ├── YF
 │   │               │   └── YF9suv1MmH3_eVyQSsLrDluYKBwHirl_BbG29HuhnAg.cache
 │   │               ├── YG
-│   │               │   └── YGHfRAhRGwcQYtNVsTDSHWy-nAjme0W4Mb0-F2gzQ5k.cache
+│   │               │   ├── YGHfRAhRGwcQYtNVsTDSHWy-nAjme0W4Mb0-F2gzQ5k.cache
+│   │               │   └── yGkLTBTA-fEQfYhWp_6JGLarVV0gfo4pJ14qDWUyJHo.cache
 │   │               ├── Yc
 │   │               │   ├── YcNhEEESdjhAnm0nEpNwqSkuv_yL47IBx1LVLTBGbu0.cache
 │   │               │   └── YcQ-X_mg2b5eMnz_58hV0L5TAi9p4hJynqnLe7F8QhA.cache
+│   │               ├── Yi
+│   │               │   └── YiRP5jMGM8x_oCr5MoDwCmexQ2eZWFmrR3G0sWBQl8I.cache
 │   │               ├── Yk
 │   │               │   └── YkqtJWXKkQpznZ9qbirnN5dq_DT90HvsWdVs-lVmewU.cache
 │   │               ├── Z0
@@ -790,7 +854,8 @@ $ rails server
 │   │               │   ├── _M2-hcFCObHtfR3-n-g611U1n5grNfMQg-2oO1Dhczs.cache
 │   │               │   └── _MQ144-Mia4ekotVdb2YUIhqP9CimaIUSugdPU2-BUw.cache
 │   │               ├── _P
-│   │               │   └── _Pa9EcQuo7G94LRQcX6C13jS_ol6ZoidC5S_3Es0nZs.cache
+│   │               │   ├── _Pa9EcQuo7G94LRQcX6C13jS_ol6ZoidC5S_3Es0nZs.cache
+│   │               │   └── _p9gfnxmtvlUDP_eRYUU6t7-1cGehQuNfX8DEFZaMk4.cache
 │   │               ├── _W
 │   │               │   └── _Wgm27Eq8UWgsq90Yd-EUSN_7Cmf4x1p2ElW_WS5wRU.cache
 │   │               ├── _d
@@ -802,6 +867,12 @@ $ rails server
 │   │               ├── aG
 │   │               │   ├── aGEz8wkuxiCthR0NOqWG3xDfMz9itCQnn9YEiMGs7Zo.cache
 │   │               │   └── agtxH7A_BD19B0BzIiT3Ko4Y1gIIcqVwEQEtnFQ65pc.cache
+│   │               ├── aL
+│   │               │   └── aLenhZiBS2ncQs7rhPumeCTE8c3EqPP6TbgU9hKhGFk.cache
+│   │               ├── aW
+│   │               │   └── aWe3rz59MZ3ASoXwKd5nxCPdiHNuZJVYA2evhDBg6-0.cache
+│   │               ├── af
+│   │               │   └── afEUssS0Gb1sn6gRDJOjwgGyjLX-2VwpxE2GaGwYRoI.cache
 │   │               ├── an
 │   │               │   └── anwwT4ZnJOKKsp1umi2HD3NNuJ3W-jKcbE7j-gEOvCk.cache
 │   │               ├── ap
@@ -811,10 +882,14 @@ $ rails server
 │   │               │   └── as6oYoPOAaJSlC9Og6dIATgYer_-pqLmWZ5jiKAAgQE.cache
 │   │               ├── av
 │   │               │   └── avYI86eWG_f4qIIacpzi7fUWm2i9mH29Qi_xGgD5xXM.cache
+│   │               ├── az
+│   │               │   └── aztYowSb_IGEpxxybbyjXiKsM_qpFA1vKJ6L99l3GnE.cache
 │   │               ├── b0
 │   │               │   └── b0NUtSqToCBOg3-ZMHiQpZ6PSJphjJXZbmKy5MvCjno.cache
 │   │               ├── b8
 │   │               │   └── b8GFoC8WKKE3pnwCU3tiayXLy84_kGhi083BXr3ygaI.cache
+│   │               ├── bB
+│   │               │   └── bB9HzyEwMX1cLrJsQPAP350AcjwVuHmF1oAGiJCTs0Q.cache
 │   │               ├── bP
 │   │               │   └── bP9uq2hcTOaS2LqqXkI27_K8cdZ0XLdwaFrkSbJRr3k.cache
 │   │               ├── bQ
@@ -841,7 +916,10 @@ $ rails server
 │   │               │   ├── CtFH3QUUvLgGyHeG1qX44AllXsHQquNMBzFpSwS_S1Q.cache
 │   │               │   ├── cTVVK48N9yiIj5ouOeoGatjNXBjWxEUqv9E6RaeKST8.cache
 │   │               │   └── cth6t9rkpUAJLGUTEg0Pa_oA6_XCryp6F7RF9lBwuag.cache
+│   │               ├── c_
+│   │               │   └── c_55hfLYXFp4Tw5Qx7GYSVdLlv-TyiKGykg640BMmKk.cache
 │   │               ├── cf
+│   │               │   ├── cfSCk6jvdiY4AmyIzps-4Z-tLlsWHSr8W-N7nVWufm0.cache
 │   │               │   └── cfnDD8Kmb3__FA3HubfFtS9t103jrXmbmi7XH0vs7hU.cache
 │   │               ├── cj
 │   │               │   ├── Cj-uQNIk2T4lo2kvGXbDUYVzBjo_BztilS10Q-nsW8Y.cache
@@ -856,8 +934,12 @@ $ rails server
 │   │               │   └── dBNLLdVDXbE7yR3DY49rw74vt5iywWUuEdXJdmlX2wM.cache
 │   │               ├── dT
 │   │               │   └── dTT-eShbVyef-TFrPYZoElthQ_c8xZ7yAwrqC2EUxb4.cache
+│   │               ├── dX
+│   │               │   └── dXFK_M1q0VDo-975JgidG4LpWDy8lxo_EEMpMTeHdfg.cache
 │   │               ├── de
 │   │               │   └── deYsLJicsckg9muSBFF-BPdRR72Mt6BKzoh_1bddxnI.cache
+│   │               ├── dp
+│   │               │   └── dpfD0-DWescSNmRMOnePg4hQQhJFObr-YQqTDeaIJjE.cache
 │   │               ├── eM
 │   │               │   └── eMk06L0mXru32V5kApLqPmjEPuaOPNGeLTC1_trrqZw.cache
 │   │               ├── eP
@@ -877,6 +959,7 @@ $ rails server
 │   │               ├── fs
 │   │               │   └── fs8in4NixepdzOT8feUvCIOjVWK2PHdOClNp-fM7aY8.cache
 │   │               ├── fy
+│   │               │   ├── FyeJpsA9yLCvUEXO835wLMn-omKVxztYnza5x9i_ytA.cache
 │   │               │   └── fy30wu852VVu8-cNZ1abqDWLD2wqFivWEKhr-nchRhk.cache
 │   │               ├── gE
 │   │               │   └── gEFfW56Mfe5x0KqDoWHCJYE9y00Aobli0MjE6Gcvc_Y.cache
@@ -895,7 +978,10 @@ $ rails server
 │   │               ├── hY
 │   │               │   ├── HYdNdtcXBxkX-jjgk_GCRjGFR7RnILqmmWmvGoMCpYI.cache
 │   │               │   ├── hYmP5xv_FFyeOTwaeCKjh9YjHLJ5RDiJfWwqtE3tR34.cache
+│   │               │   ├── hyC0lXhzQAyzH8iMz47cg-_F6ffAHq2P3CoCHMJUEPE.cache
 │   │               │   └── hyD0dQz2t5rjtezGkjt9Wd89HmIFu3FUGwKR9XJV7Ck.cache
+│   │               ├── ha
+│   │               │   └── hacsSvv1L-V_wtnbFizZ3KfSvCzSsyhh_BYHe93VL0U.cache
 │   │               ├── hi
 │   │               │   └── hijRtK-8K2sKjJexgAxN8snCPFPDg_4KxeHO9cT2yZM.cache
 │   │               ├── i6
@@ -927,6 +1013,8 @@ $ rails server
 │   │               │   └── k9ZX0WfIZNiXehgpP72PwGTOnM8EbZ8BZ-OtJwnUVIo.cache
 │   │               ├── kG
 │   │               │   └── kGBsrmmnc83G045eoGylp0pLxXytTf9Hs8qGOnP-oqo.cache
+│   │               ├── kN
+│   │               │   └── kNYC9e2BFyRyh2Ur560LJjOOGfxN9OHyZGfhvgWEhzU.cache
 │   │               ├── kU
 │   │               │   ├── KUFHV1Ozz0x49w5t604dSsB3meEqY7YX8efD_3vpf4s.cache
 │   │               │   └── kUS9tqyyBGU9Qf_mAz4-v_To_LdMxC_SEyU-2aBsBfQ.cache
@@ -947,6 +1035,7 @@ $ rails server
 │   │               ├── la
 │   │               │   └── lasmjcbOL2in6l5KIozMPmh0fCMGWeM3HE3_8SHV1YY.cache
 │   │               ├── lk
+│   │               │   ├── lKP-5nHAt-O3TKYomwZJ9F7SjZaGuQeEzjJ0LACViRs.cache
 │   │               │   └── lkklPRqr66CDZ600dBWB4csr2jqJrSFcn0qv1leuhYM.cache
 │   │               ├── lm
 │   │               │   └── lmUclwY3RNN3vcpcWNnVts-aBgVpNEDfoK0dXDwXB3Y.cache
@@ -963,14 +1052,20 @@ $ rails server
 │   │               │   └── mDUaHT_zGnGk_CHcZH9jknTH7CYR8IJxgw0KduRSxDM.cache
 │   │               ├── mL
 │   │               │   └── mLnjifPxb3ogRdBpin_9Eov4dU_iySXglIq42vugvGc.cache
+│   │               ├── mN
+│   │               │   └── mN9M5mDvvZvvtrBhdYxqaudx5BFGu5bG-3IzcPFpDcQ.cache
 │   │               ├── mS
 │   │               │   └── mS9mTTVUBcgmaempQ0lgrvEppJwfXrtD0kF9rf1nT4U.cache
+│   │               ├── mV
+│   │               │   └── mVJFg9EROLCQlkd6vLR6CHfe8QB2vzPrmCC0VMOvh6A.cache
 │   │               ├── mp
 │   │               │   ├── mPSvVNgH6M-dHpPBOGsVKS6WyATb39ZdTxycbUCIX4w.cache
 │   │               │   └── mpIQJS_QzsylRDknRl2FOTPdFl61r4UGg2ooyEkRADI.cache
 │   │               ├── mt
 │   │               │   ├── MTSlNbOAfaAUlDHh8IWLurwyg3f5_bhXsP7ekkO2704.cache
 │   │               │   └── mtyDWHbgesCBkR98cxCYNKGQ3OvHF2aDd3KReh6OKjI.cache
+│   │               ├── nG
+│   │               │   └── nGADIHHbACV82cqDHIFVsv2DVQekOZXX4GECGKW-69I.cache
 │   │               ├── nK
 │   │               │   ├── nK-kuSDJUrjxcRT0eOhAw5DyaWKGqiPGrJN8bHNbXWk.cache
 │   │               │   └── nK2NvnVE_81VzbSvdwJksmEjXguHwWZbgHgQ2TCsiE4.cache
@@ -983,11 +1078,16 @@ $ rails server
 │   │               │   └── oAawKNyVVogzm-_q3UZyNB23VRkr14KMsqSDUZAqFYE.cache
 │   │               ├── oB
 │   │               │   └── oBqvsjYxDUfCPPtZlVs9APGmzgFYdfTpoX8t3YMmBW0.cache
+│   │               ├── oF
+│   │               │   └── oFrcTFujpBFe1fusTI93T3skmnxtsQUnOfbcjDdHmlk.cache
 │   │               ├── oM
 │   │               │   └── oM3J5zXMIaGjlXh1Q4TZ5R5C7ANdhHMgfrAnD4xmFH0.cache
 │   │               ├── oS
 │   │               │   └── oS4tcX2Td7Wld2ikPX-9m9R06VQIY2lFO_HepmS93rY.cache
+│   │               ├── oV
+│   │               │   └── oVBFiGUSx7OH3XsMJcUg3AfYnI0yE9l-kIMn3dMA4VM.cache
 │   │               ├── oW
+│   │               │   ├── OW-2-uUU_Rb1WI4IwVA3kro2K2BjlglebFfSw9Ja1bs.cache
 │   │               │   └── oWsYWhSgpRhICXq7ei-Ku_-lJFdXV9zjwcm9gu4gJDs.cache
 │   │               ├── ok
 │   │               │   └── okY2zhAkri6cScaFrX4kJupX4HlwDvU_26cwDheXV_8.cache
@@ -1000,6 +1100,7 @@ $ rails server
 │   │               ├── pE
 │   │               │   └── pEm31fZQC3PZBscxB2rkffYlAUT54trj0PPzam0-hO4.cache
 │   │               ├── pL
+│   │               │   ├── Pl_PQ5zeAMZfDu51_JkOaja5H4Gozb5C_qM8a7sxbLc.cache
 │   │               │   └── pL9hWVp2pFw74D4e0h436sTV84Y79-taq8TwxrmjnIE.cache
 │   │               ├── pO
 │   │               │   ├── pOphWYAyIep3kJ50-JuGLgnH0tOd72NDYoaPaQMWXvo.cache
@@ -1014,11 +1115,15 @@ $ rails server
 │   │               │   └── pm7YL1BeTplTD5MobClOSXKoB11EHxbPImfLNhyGTiU.cache
 │   │               ├── ps
 │   │               │   └── psMh5-X3H-OLeVw3tbjwF8q219DEuJ2hh-I6_PEocQA.cache
+│   │               ├── q0
+│   │               │   └── q0Q17qBOWAjESjnQBtwciu8Qm05MUoIF1gadfmuiAi8.cache
 │   │               ├── qB
 │   │               │   └── qBCfJ97tWUkRvuqHIYIF0hYtedxVQSYDDfy_BmeTLfg.cache
 │   │               ├── qE
 │   │               │   ├── qEP6Az7DMr7NisUnQPTfZA5qjiUfGB9sHNtAoll2oQU.cache
 │   │               │   └── qExo7z1RHH1DlaqxWSPy3Iu_iFnoSl-uelXh2eTAang.cache
+│   │               ├── qI
+│   │               │   └── qIt3pGXC1Vf5AjeavifNlnTPNpcl0SOkh0al8yHwVbo.cache
 │   │               ├── qQ
 │   │               │   └── qQWXoYKMsEMwxTQlEZRCEkWSD1PgFWkSpOhA0muKaOw.cache
 │   │               ├── qh
@@ -1035,6 +1140,7 @@ $ rails server
 │   │               │   ├── rCxuVMTrlczUVL56QBfwK7iOk27LgGue3uTkhHTvlKk.cache
 │   │               │   └── rcjoCWdHZjy2IAykp6cQJKdgRFOHDnh7EBfphJrCPA0.cache
 │   │               ├── rr
+│   │               │   ├── rRQIX6ykYxO8RCzeLm_Ri7GZPCIEQVkND7lmYxw6vuA.cache
 │   │               │   └── rrFdhj-DEb_DxHQKfhikkr_fQgrSc3tgzyEDCZKoGiA.cache
 │   │               ├── s-
 │   │               │   └── s-TO6BZhDdXhhLPunHCE1UiMuEk2kpkRZuKfz9y2sp4.cache
@@ -1056,6 +1162,7 @@ $ rails server
 │   │               ├── tL
 │   │               │   └── tL577_bS0BDOis_neZDMFaiv9zv_KxLC6yIGvHYh66Y.cache
 │   │               ├── tR
+│   │               │   ├── tRa9VgTscUen1Owp_zwNU6PegTid9a3d6A8mVbadgLE.cache
 │   │               │   └── tRldBYCoxptoFr89ud6gd545lU8iDhjyQXrfMntM-Xk.cache
 │   │               ├── tq
 │   │               │   └── tqDa0-VkJwCVhfGZ1TSnCT-b3h6HPDycJLYTtrm9V7Y.cache
@@ -1080,6 +1187,7 @@ $ rails server
 │   │               ├── uu
 │   │               │   └── uutGarlZ4ZwlWDB8T2JVGdZ6W62FDcE7TinG7XFBNKk.cache
 │   │               ├── vL
+│   │               │   ├── Vl31fYjxTmnvZE1mQtCvWIhb8kTfFRaTikC3RRA28dg.cache
 │   │               │   └── vLMYbkl_R_1xE5wg1ZE7Z_F9lL-3cX7Rm6ukJ9TQPHk.cache
 │   │               ├── vW
 │   │               │   └── vWBBGKjUy7T_qjb-VeibWL2eXE2Qry2nouHcIMm6gFQ.cache
@@ -1094,6 +1202,8 @@ $ rails server
 │   │               │   └── vvq7JVYuOEmsilYL476iWcYd9U3RWVhjaS9wU5dhdr8.cache
 │   │               ├── vz
 │   │               │   └── vzjqPgKoZ5vzELWx5NEJpl4VV9qylCutXFaqSzjGZbg.cache
+│   │               ├── wB
+│   │               │   └── wBVOEASLbkxL44kJI905Ime6n-eZE9svqqOXVR0pbDk.cache
 │   │               ├── wJ
 │   │               │   └── wJq_8Rmul-yuBlvO28HZP20GhjgTJsSRlsejOdLg6VA.cache
 │   │               ├── wd
@@ -1104,6 +1214,8 @@ $ rails server
 │   │               │   └── wiNbXuBg71vU97ilvqZsh-MDG9iXytjy8XE6CuqC-JE.cache
 │   │               ├── wr
 │   │               │   └── wrAoAnXFhqeCrOuRp7L2fiqaaaEyjZiBD0m06u5cWaY.cache
+│   │               ├── ws
+│   │               │   └── wsCRGUhTwBdpTih5ofUu1R3I8wMjaSlO98sApjVVNMk.cache
 │   │               ├── wz
 │   │               │   └── wzirqdwFYULK-q4SPYlekNQ3y-uITGp7dz8KY5zNVCQ.cache
 │   │               ├── x-
@@ -1120,6 +1232,8 @@ $ rails server
 │   │               ├── xf
 │   │               │   ├── XfSv1sUxA1l4cRuubSbNRnWBlhTlt30T6b7T7-wwMew.cache
 │   │               │   └── xfqwUEqqKWK_tx-ti9gRIm_vsHOsp8krwTa9kLtro88.cache
+│   │               ├── xt
+│   │               │   └── xtzL8Ar4peYDE2qpYxnWfuVlAF6qHixk0-dTvqmJVSc.cache
 │   │               ├── xv
 │   │               │   └── xvJUctef_fdN3THwLJ-33g9fVD22kZEbTihl_k7oOtw.cache
 │   │               ├── yA
@@ -1129,6 +1243,8 @@ $ rails server
 │   │               │   └── yvryrUhDnw9Q2G5n2-OpiJ51dL0o4jAkJEupGZwhTlc.cache
 │   │               ├── yY
 │   │               │   └── yYTlbncDcNw2Fg4FQAPt_SxVjmeikjSUrBSbzFk9bxU.cache
+│   │               ├── yx
+│   │               │   └── yxsItrfbHVxIJoqkICHYd3CDZOqwTJIKqXGHcbgvDvI.cache
 │   │               ├── yz
 │   │               │   └── yzkhiN6ENJ42pOwXG9CE4zkTNXVnHVP9Z1tZL7Dgsi4.cache
 │   │               ├── z2
@@ -1152,6 +1268,10 @@ $ rails server
 │   │               ├── zh
 │   │               │   ├── zHaU2OvIdQlDh6FONCEssgv1O1Op2i-wFufTaJQHIo8.cache
 │   │               │   └── zhwOvMUvM_baIUHogfd9lOnaI_1AkYWqzD0FHOSDFok.cache
+│   │               ├── zi
+│   │               │   └── zi9zemd8WRIzpavU5nfqemxA5RFqH4tlWOfGe3kJmP8.cache
+│   │               ├── zl
+│   │               │   └── zl3PB45LyMofuXP73wjXh_QtWnM3qiZEdg5H7tHB8xc.cache
 │   │               └── zo
 │   │                   ├── zoL9NLJ37kyAYC_JjFT7xrTwKzYsXRNk96F1xS-di6g.cache
 │   │                   └── zortNK5wRI89BhbtSLrxo3svd4kc1Po6G3A9x0ZJPl0.cache
@@ -1160,4 +1280,4 @@ $ rails server
 │   └── sockets
 └── vendor
 
-488 directories, 629 files
+532 directories, 706 files
